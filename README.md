@@ -1,139 +1,189 @@
-This project presents an institutional-style quantitative risk engine designed for advanced market risk modeling under non-Gaussian dynamics.
+# 🏛 Institutional Double Heston Risk Engine
 
-The framework integrates:
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Model](https://img.shields.io/badge/Model-Double%20Heston%20%2B%20Jumps-red)
+![Risk](https://img.shields.io/badge/Risk-VaR%20%2F%20CVaR-orange)
+![Backtesting](https://img.shields.io/badge/Backtesting-Kupiec%20%2F%20Christoffersen-green)
 
-Double Heston stochastic volatility
-Jump diffusion processes
-Student-t heavy-tailed innovations
-Fractional volatility (long-memory effects)
+Advanced quantitative risk engine implementing a **Double Heston stochastic volatility model with jumps, t-distributed shocks, and fractional volatility effects**, designed for institutional-grade market risk modeling and regulatory validation.
 
-The objective is to evaluate whether enriched stochastic models improve risk estimation accuracy compared to classical Gaussian-based frameworks.
+---
 
-Key Insight
+## 🚀 Key Features
 
-Risk models are asset-dependent, not universal.
+- Double Heston stochastic volatility model  
+- Jump diffusion (Poisson + Gaussian jumps)  
+- Student-t heavy-tailed innovations  
+- Fractional volatility (Hurst exponent via variogram)  
+- VaR & CVaR (95% / 99%)  
+- Basel traffic-light classification  
+- Kupiec & Christoffersen backtests  
+- Realized variance / bipower variation jump detection  
+- Tail risk diagnostics (skew, kurtosis, drawdown)  
+- Rolling VaR backtesting framework  
+- Multi-horizon risk forecasting (1–10 days)  
+- Monte Carlo simulation engine  
 
-Empirical results show strong regime sensitivity:
+---
 
-Single-name equities → jump-driven dynamics dominate
-Index-level assets → diffusion-dominant behavior prevails
+## 📊 Assets Modeled
 
-This implies model selection is a function of market microstructure, not only statistical fit.
+| Asset | Type | Regime |
+|------|------|--------|
+| NVDA | Single Stock | High Volatility / Jump-Dominant |
+| GSPC | Index | Low Volatility / Diffusion-Dominant |
 
-Model Architecture
-Market Data
-   ↓
-Parameter Calibration
-   ↓
-Double Heston Volatility Process
-   ↓
-Jump Diffusion Layer
-   ↓
-Fractional Volatility Adjustment
-   ↓
-Monte Carlo Simulation Engine
-   ↓
-Risk Metrics (VaR / CVaR)
-   ↓
-Regulatory Backtesting
-   ↓
-Diagnostic Validation
-Methodology
-1. Stochastic Volatility Engine
-Double Heston variance process
-Mean-reverting stochastic volatility factors
-Correlated Brownian motions
-Andersen Quadratic Exponential discretization
-2. Jump & Tail Modeling
-Poisson jump arrivals
-Gaussian jump size distribution
-Student-t innovations (heavy tails)
-3. Memory Effects
-Fractional volatility via Hurst exponent
-Long-memory correction in volatility scaling
-4. Monte Carlo Engine
-High-dimensional path generation
-Numba-accelerated computation
-Multi-horizon risk projection
-📊 Empirical Results
-🧠 NVIDIA (NVDA) — High Volatility / Jump-Dominant
-Metric\tValue
-t-dof (ν)\t11.98
-Jump intensity (λ)\t0.158
-Hurst (H)\t0.050
-Kupiec Test\tPASS
-Christoffersen\tPASS
-Basel Status\t🟡 YELLOW
+---
 
-Interpretation:
+## 🧠 Model Architecture
 
-Strong jump behavior
-Heavy tails captured well
-Model performs reliably under stress
-📉 S&P 500 (GSPC) — Diffusion-Dominant
-Metric\tValue
-t-dof (ν)\t8.25
-Jump intensity (λ)\t~0.000
-Hurst (H)\t0.062
-Kupiec Test\tFAIL
-Christoffersen\tINCONCLUSIVE
-Basel Status\t🟢 GREEN
+Market Data  
+↓  
+Parameter Calibration  
+↓  
+Double Heston Volatility Process  
+↓  
+Jump Diffusion Layer  
+↓  
+Fractional Volatility Adjustment  
+↓  
+Monte Carlo Simulation Engine  
+↓  
+Risk Metrics (VaR / CVaR)  
+↓  
+Regulatory Backtesting  
+↓  
+Diagnostic Validation  
 
-Interpretation:
+---
 
-Low jump frequency
-Diffusion-only structure dominates
-Model becomes over-parameterized
-🏦 Regulatory Backtesting
-Kupiec Proportion of Failures Test
-Christoffersen Independence Test
-Basel Traffic Light System:
-Status\tMeaning
-🟢 Green\tAcceptable model performance
-🟡 Yellow\tMonitor / borderline
-🔴 Red\tModel rejection
-📉 Risk Metrics
-Value-at-Risk (VaR 95%, 99%)
-Conditional VaR (CVaR)
-Max Drawdown
-Tail Ratio
-Downside Volatility
-Kolmogorov–Smirnov test
-Jarque–Bera test
-📌 Key Finding
+## ⚙️ Methodology
 
-Stochastic volatility + jumps improve risk estimation for high-volatility equities,
-but may lead to misspecification in index-level assets.
+### 1. Stochastic Volatility Engine
+- Double Heston variance process  
+- Mean-reverting volatility factors  
+- Correlated Brownian motions  
+- Andersen Quadratic Exponential discretization scheme  
 
-⚠️ Limitations
-Sensitivity to rolling window calibration
-Jump detection noise in low-vol regimes
-Empirical (not structural) fractional volatility
-Non-stationary parameter drift
-🧰 Technology Stack
-Python 3.12
-NumPy / Pandas
-SciPy / Statsmodels
-Matplotlib
-Numba (JIT acceleration)
-SQLite (data backend)
-🚀 Future Enhancements
-Regime-switching volatility models
-Portfolio-level multivariate extension
-GPU-accelerated Monte Carlo
-Neural SDE-based volatility modeling
-Real-time risk engine deployment
-⚡ Quick Start
-git clone https://github.com/rezadoostanii/risk-engine.git
-cd risk-engine
+### 2. Jump & Tail Modeling
+- Poisson jump arrivals  
+- Gaussian jump size distribution  
+- Student-t innovations (fat tails)  
+
+### 3. Memory Effects
+- Fractional volatility via Hurst exponent  
+- Long-memory correction in volatility scaling  
+
+### 4. Monte Carlo Simulation Engine
+- High-dimensional path generation  
+- Numba-accelerated computation  
+- Multi-horizon risk projection  
+
+---
+
+## 📈 Empirical Results
+
+### 🧠 NVIDIA (NVDA) — High Volatility / Jump-Dominant
+
+| Metric | Value |
+|------|------|
+| t-dof (ν) | 11.98 |
+| Jump intensity (λ) | 0.158 |
+| Hurst exponent (H) | 0.050 |
+| Kupiec test | PASS |
+| Christoffersen test | PASS |
+| Basel status | 🟡 YELLOW |
+
+**Interpretation:**
+- Strong jump behavior detected  
+- Heavy tails captured effectively  
+- Model performs robustly under stress regimes  
+
+---
+
+### 📉 S&P 500 (GSPC) — Diffusion-Dominant
+
+| Metric | Value |
+|------|------|
+| t-dof (ν) | 8.25 |
+| Jump intensity (λ) | ~0.000 |
+| Hurst exponent (H) | 0.062 |
+| Kupiec test | FAIL |
+| Christoffersen test | INCONCLUSIVE |
+| Basel status | 🟢 GREEN |
+
+**Interpretation:**
+- Low jump frequency regime  
+- Diffusion dominates dynamics  
+- Model shows over-parameterization in index setting  
+
+---
+
+## 🏦 Regulatory Backtesting
+
+- Kupiec Proportion of Failures Test  
+- Christoffersen Independence Test  
+- Basel Traffic Light System  
+
+| Status | Meaning |
+|--------|--------|
+| 🟢 Green | Acceptable model performance |
+| 🟡 Yellow | Monitor / borderline risk |
+| 🔴 Red | Model rejection |
+
+---
+
+## 📉 Risk Metrics
+
+- Value-at-Risk (VaR 95%, 99%)  
+- Conditional VaR (CVaR)  
+- Max Drawdown  
+- Tail Ratio  
+- Downside Volatility  
+- Kolmogorov–Smirnov test  
+- Jarque–Bera test  
+
+---
+
+## 📌 Key Insight
+
+> Risk models are **asset-dependent, not universal**
+
+Empirical evidence shows strong regime sensitivity:
+
+- Single-name equities → jump-driven dynamics dominate  
+- Index-level assets → diffusion-dominant behavior prevails  
+
+This implies model selection depends on **market microstructure**, not only statistical fit.
+
+---
+
+## ⚠️ Limitations
+
+- Sensitive to rolling window calibration  
+- Jump detection noise in low-vol regimes  
+- Fractional volatility is empirical (not structural)  
+- Parameter drift over time  
+
+---
+
+## 🧰 Technology Stack
+
+- Python 3.12  
+- NumPy / Pandas  
+- SciPy / Statsmodels  
+- Matplotlib  
+- Numba (JIT acceleration)  
+- SQLite (data backend)  
+
+---
+
+## 🚀 Quick Start
+
+```bash
+git clone https://github.com/rezadoostanii/Institutional-Risk-Engine-Jump-Heston.git
+cd Institutional-Risk-Engine-Jump-Heston
 
 pip install -r requirements.txt
+
 python main.py --compare
-🎯 Final Note
-
-This project is designed as an institutional research prototype, demonstrating:
-
-Stochastic volatility modeling
-Tail risk quantification
-Regulatory backtesting
-Monte Carlo risk simulation"""
