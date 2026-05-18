@@ -181,9 +181,14 @@ This implies model selection depends on **market microstructure**, not only stat
 ## 🚀 Quick Start
 
 ```bash
+# Clone the repository
 git clone https://github.com/rezadoostanii/Institutional-Risk-Engine-Jump-Heston.git
 cd Institutional-Risk-Engine-Jump-Heston
 
+# Install dependencies
 pip install -r requirements.txt
+
+# Run the engine (compares NVDA vs GSPC)
+python main.py
 
 python main.py --compare
